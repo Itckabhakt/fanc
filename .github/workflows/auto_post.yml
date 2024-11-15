@@ -1,0 +1,31 @@
+name: Auto Post Matches to Telegram
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to 'main' branch
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
+  schedule:
+    - cron: '*/3 * * * *'  # Runs every 3 minutes
+
+jobs:
+  post-match-data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        pip install requests
+
+    - name: Run Python script to post match data
+      run: |
+        python auto_post.py
+        
